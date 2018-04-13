@@ -29,6 +29,7 @@
   });
 
   btnSignUp.addEventListener('click', e => {
+    // TODO: check 4 real email
     //console.log('event fired');
     const email = txtEmail.value;
     const pass = txtPassword.value;
@@ -36,6 +37,21 @@
 
     const promise = auth.createUserWithEmailAndPassword(email, pass);
     promise.catch(e => console.log(e.message));
+  });
+
+  btnLogout.addEventListener('click', e => {
+    firebase.auth().signOut();
+  });
+
+  firebase.auth().onAuthStateChanged(firebaseUser => {
+    if(firebaseUser) {
+      //console.log(firebaseUser);
+      console.log('you are in');
+      btnLogout.classList.remove('hide');
+    } else {
+      console.log('you are out');
+      btnLogout.classList.add('hide');
+    }
   });
 
 }());

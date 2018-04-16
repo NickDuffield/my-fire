@@ -54,5 +54,17 @@
     }
   });
 
-
 }());
+
+// test push data event
+
+var dataBtn = document.getElementById('dataBtn');
+
+dataBtn.addEventListener('click', function(e) {
+
+  //console.log('working');
+  var dataTest = "New value";
+  var databaseRef = firebase.database().ref('sample-data');
+  databaseRef.push(dataTest);
+
+});

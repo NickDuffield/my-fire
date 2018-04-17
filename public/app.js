@@ -62,9 +62,13 @@ var dataBtn = document.getElementById('dataBtn');
 
 dataBtn.addEventListener('click', function(e) {
 
-  //console.log('working');
   var dataTest = "New value";
   var databaseRef = firebase.database().ref('sample-data');
-  databaseRef.push(dataTest);
+  var userRef = databaseRef.child('users');
+  userRef.push(dataTest);
+
+  // @TODO try this link https://firebase.google.com/docs/database/web/read-and-write?authuser=1
+
+  //console.log('data sent');
 
 });

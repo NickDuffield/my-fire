@@ -56,19 +56,28 @@
 
 }());
 
-// test push data event
+/* @TODO
+  - next steps to create data referenced to user. spots and messages
+  - display signed in users name
+*/
 
 var dataBtn = document.getElementById('dataBtn');
 
 dataBtn.addEventListener('click', function(e) {
 
-  var dataTest = "New value";
-  var databaseRef = firebase.database().ref('sample-data');
-  var userRef = databaseRef.child('users');
-  userRef.push(dataTest);
+  var userId = firebase.auth().currentUser.uid;
+  var email = 'hi.nickduffield@gmail.com';
+  var username = 'Nick';
 
-  // @TODO try this link https://firebase.google.com/docs/database/web/read-and-write?authuser=1
-
-  //console.log('data sent');
+  writeUserData(userId, email, username);
 
 });
+
+function writeUserData(userId, email, username) {
+
+  firebase.database().ref('users/' + userId).set({
+    username: username,
+    email: email
+  });
+
+}

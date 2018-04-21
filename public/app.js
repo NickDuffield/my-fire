@@ -66,18 +66,35 @@ var dataBtn = document.getElementById('dataBtn');
 dataBtn.addEventListener('click', function(e) {
 
   var userId = firebase.auth().currentUser.uid;
-  var email = 'hi.nickduffield@gmail.com';
-  var username = 'Nick';
+  var coords = {lat:45.5230, lng: 122.6636};
+  var iconImg = 'assets/marker-park.svg';
+  var imgUrl = 'placeholder for now';
+  var spotName = 'Burnside Skatepark';
 
-  writeUserData(userId, email, username);
+  postNewSpot(userId, coords, iconImg, imgUrl, spotName);
 
 });
 
-function writeUserData(userId, email, username) {
+function postNewSpot(userId, coords, iconImg, imgUrl, spotName) {
+  // A post entry.
+  var spotData = {
+    userId: userId,
+    coords: coords,
+    iconImg: iconImg,
+    imgUrl: imgUrl,
+    spotName: spotName
 
-  firebase.database().ref('users/' + userId).set({
-    username: username,
-    email: email
-  });
+  };
 
+  // Get a key for a new Post.
+  var newSpotKey = firebase.database().ref().child('spots').push().key;
+
+  // Write the new post's data simultaneously in the posts list and the user's post list.
+  var updates = {};
+  updates['/spots/' + newSpotKey] = spotData;
+
+  //This could be for messaging
+  //updates['/user-posts/' + userId + '/' + newSpotKey] = spotData;
+
+  return firebase.database().ref().update(updates);
 }

@@ -57,7 +57,6 @@
 }());
 
 /* @TODO
-  - next steps to create data referenced to user. spots and messages
   - display signed in users name
 */
 

@@ -29,8 +29,7 @@
   });
 
   btnSignUp.addEventListener('click', e => {
-    // TODO: check 4 real email
-    //console.log('event fired');
+
     const email = txtEmail.value;
     const pass = txtPassword.value;
     const auth = firebase.auth();
@@ -45,7 +44,23 @@
 
   firebase.auth().onAuthStateChanged(firebaseUser => {
     if(firebaseUser) {
-      //console.log(firebaseUser);
+
+      // @TODO
+      // below function doesn't update when user logs out
+      // register isn't creating a new user ref in database
+
+      var currentUser = firebaseUser.uid;
+      var dbRefObject = firebase.database().ref('users/' + currentUser);
+
+      dbRefObject.on('value', testFunction);
+
+      function testFunction(data){
+        var displayName = document.getElementById('displayName');
+        var currentUserName = 'Welcome ' + data.val().username;
+        displayName.innerHTML = currentUserName;
+      };
+
+
       console.log('you are in');
       btnLogout.classList.remove('hide');
     } else {
@@ -54,7 +69,13 @@
     }
   });
 
+
+
 }());
+
+function getUserInfo(currentUser) {
+  //
+};
 
 /* @TODO
   - display signed in users name

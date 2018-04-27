@@ -15,7 +15,7 @@
   const txtEmail = document.getElementById('txtEmail');
   const txtPassword = document.getElementById('txtPassword');
   const btnLogin = document.getElementById('btnLogin');
-  const btnSignUp = document.getElementById('btnSignUp');
+  const btnRegister = document.getElementById('btnRegister');
   const btnLogout = document.getElementById('btnLogout');
 
   btnLogin.addEventListener('click', e => {
@@ -25,29 +25,38 @@
     const auth = firebase.auth();
 
     const promise = auth.signInWithEmailAndPassword(email, pass);
+
+    // look at this message for user feedback
     promise.catch(e => console.log(e.message));
   });
 
-  btnSignUp.addEventListener('click', e => {
+  btnRegister.addEventListener('click', e => {
 
     const email = txtEmail.value;
     const pass = txtPassword.value;
     const auth = firebase.auth();
 
     const promise = auth.createUserWithEmailAndPassword(email, pass);
+
+    // look at this message for user feedback
     promise.catch(e => console.log(e.message));
+
+    makeUserDataRef();
+
   });
 
   btnLogout.addEventListener('click', e => {
     firebase.auth().signOut();
   });
 
+  var displayName = document.getElementById('displayName');
+
   firebase.auth().onAuthStateChanged(firebaseUser => {
     if(firebaseUser) {
 
       // @TODO
-      // below function doesn't update when user logs out
       // register isn't creating a new user ref in database
+      // app to feedback if there is a no user or password mismatch
 
       var currentUser = firebaseUser.uid;
       var dbRefObject = firebase.database().ref('users/' + currentUser);
@@ -55,31 +64,33 @@
       dbRefObject.on('value', testFunction);
 
       function testFunction(data){
-        var displayName = document.getElementById('displayName');
+        //var displayName = document.getElementById('displayName');
         var currentUserName = 'Welcome ' + data.val().username;
         displayName.innerHTML = currentUserName;
       };
 
-
-      console.log('you are in');
+      //console.log('you are in');
       btnLogout.classList.remove('hide');
+
     } else {
-      console.log('you are out');
+
+      //console.log('you are out');
+
+      displayName.innerHTML = 'Sign in or register';
       btnLogout.classList.add('hide');
     }
+
   });
-
-
 
 }());
 
-function getUserInfo(currentUser) {
-  //
-};
+function makeUserDataRef() {
+  //var testData = "entry"
+  //firebase.database().ref('users').push(testData).key;
+}
 
-/* @TODO
-  - display signed in users name
-*/
+
+// pushing data as a signed in user
 
 var dataBtn = document.getElementById('dataBtn');
 
@@ -103,7 +114,6 @@ function postNewSpot(userId, coords, iconImg, imgUrl, spotName) {
     iconImg: iconImg,
     imgUrl: imgUrl,
     spotName: spotName
-
   };
 
   // Get a key for a new Post.

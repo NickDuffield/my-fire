@@ -41,8 +41,14 @@
     // look at this message for user feedback
     promise.catch(e => console.log(e.message));
 
+    //makeUserDataRef();
+
   });
 
+  /*function makeUserDataRef() {
+    var testData = "entry"
+    firebase.database().ref('users').push(testData).key;
+  }*/
 
   btnLogout.addEventListener('click', e => {
     firebase.auth().signOut();
@@ -57,13 +63,18 @@
       // register isn't creating a new user ref in database
       // app to feedback if there is a no user or password mismatch
 
-      var userDisplayName = firebase.auth().currentUser.displayName;
+      //var currentUser = firebaseUser.uid;
+      //var dbRefObject = firebase.database().ref('users/' + currentUser);
 
-      //console.log(userId);
+      //dbRefObject.on('value', testFunction);
 
-      //console.log('you are in');
-      //console.log(userDisplayName);
-      console.log(firebaseUser);
+      /*function testFunction(data){
+        //var displayName = document.getElementById('displayName');
+        var currentUserName = 'Welcome ' + data.val().username;
+        displayName.innerHTML = currentUserName;
+      };*/
+
+      console.log('you are in');
       btnLogout.classList.remove('hide');
 
     } else {
@@ -87,29 +98,13 @@ var dataBtn = document.getElementById('dataBtn');
 
 dataBtn.addEventListener('click', function(e) {
 
-  var user = firebase.auth().currentUser;
-
-  // how to update user profiles
-
-  // @TODO could we add a dsiplayName at registration
-  user.updateProfile({
-    displayName: "Nick Duffield"
-    //photoURL: "https://example.com/jane-q-user/profile.jpg"
-  }).then(function() {
-    // Update successful.
-    console.log('Update successful');
-  }).catch(function(error) {
-    // An error happened.
-    console.log('An error happened');
-  });
-
-  /*var userId = firebase.auth().currentUser.uid;
+  var userId = firebase.auth().currentUser.uid;
   var coords = {lat:45.5230, lng: 122.6636};
   var iconImg = 'assets/marker-park.svg';
   var imgUrl = 'placeholder for now';
   var spotName = 'Burnside Skatepark';
 
-  postNewSpot(userId, coords, iconImg, imgUrl, spotName);*/
+  postNewSpot(userId, coords, iconImg, imgUrl, spotName);
 
 });
 
@@ -123,11 +118,6 @@ function postNewSpot(userId, coords, iconImg, imgUrl, spotName) {
     spotName: spotName
   };
 
-  var userData = {
-    email: 'foo',
-    username: 'bah'
-  }
-
   // Get a key for a new Post.
   var newSpotKey = firebase.database().ref().child('spots').push().key;
 
@@ -137,9 +127,6 @@ function postNewSpot(userId, coords, iconImg, imgUrl, spotName) {
   //updates['/users/' + userId + '/' + newSpotKey] = spotData;
   //This could be for messaging
   //updates['/user-posts/' + userId + '/' + newSpotKey] = spotData;
-
-  //adds info to user id 
-  updates['/users/' + userId] = userData;
 
   return firebase.database().ref().update(updates);
 }

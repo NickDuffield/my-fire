@@ -143,3 +143,28 @@ function postNewSpot(userId, coords, iconImg, imgUrl, spotName) {
 
   return firebase.database().ref().update(updates);
 }
+
+
+/*
+firebase.auth().createUserWithEmailAndPassword(email, pass).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+
+  if (errorCode == 'auth/weak-password') {
+    alert('The password is too weak.');
+  } else {
+    alert(errorMessage);
+  }
+
+
+  // ...
+});*/
+
+
+//const auth = firebase.auth();
+
+//const promise = auth.createUserWithEmailAndPassword(email, pass);
+
+// look at this message for user feedback
+//promise.catch(e => console.log(e.message));
